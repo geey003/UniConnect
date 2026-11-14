@@ -11,6 +11,7 @@ import ChatView from "./components/Chat/ChatView";
 import ChatDrawer from "./components/Chat/ChatDrawer";
 import ProfileModal from "./components/Profile/ProfileModal";
 import CreatePostModal from "./components/CreatePostModal";
+import LoginModal from "./components/Auth/LoginModal";
 import MobileNav from "./components/MobileNav";
 import Toast from "./components/Toast";
 
@@ -59,6 +60,7 @@ function MainContent() {
       {/* Floating Drawers & Modals */}
       <ChatDrawer />
       <ProfileModal />
+      <LoginModal />
       <CreatePostModal
         isOpen={isCreatePostOpen}
         onClose={() => setIsCreatePostOpen(false)}

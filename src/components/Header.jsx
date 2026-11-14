@@ -8,7 +8,9 @@ import {
   Moon,
   PlusCircle,
   GraduationCap,
-  ChevronDown
+  ChevronDown,
+  LogIn,
+  LogOut
 } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import NotificationsDropdown from "./NotificationsDropdown";
@@ -23,7 +25,10 @@ export default function Header({ onOpenCreatePost }) {
     unreadNotifsCount,
     isChatDrawerOpen,
     setIsChatDrawerOpen,
-    setIsProfileModalOpen
+    setIsProfileModalOpen,
+    isAuthenticated,
+    setIsLoginModalOpen,
+    logoutUser
   } = useApp();
 
   const [isNotifOpen, setIsNotifOpen] = useState(false);
@@ -134,24 +139,45 @@ export default function Header({ onOpenCreatePost }) {
             <NotificationsDropdown isOpen={isNotifOpen} onClose={() => setIsNotifOpen(false)} />
           </div>
 
-          {/* User Profile Pill */}
-          <button
-            onClick={() => setIsProfileModalOpen(true)}
-            className="flex items-center gap-2 p-1 pl-1.5 pr-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
-          >
-            <img
-              src={currentUser.avatar}
-              alt={currentUser.name}
-              className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/30"
-            />
-            <div className="hidden lg:block text-left">
-              <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1">
-                {currentUser.name}
-                <ChevronDown className="w-3 h-3 text-slate-400" />
-              </div>
-              <div className="text-[10px] text-slate-400 truncate max-w-[100px]">{currentUser.major}</div>
+          {/* User Authentication / Profile Pill */}
+          {isAuthenticated ? (
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => setIsProfileModalOpen(true)}
+                className="flex items-center gap-2 p-1 pl-1.5 pr-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+                title="View Student Profile"
+              >
+                <img
+                  src={currentUser.avatar}
+                  alt={currentUser.name}
+                  className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500/30"
+                />
+                <div className="hidden lg:block text-left">
+                  <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1">
+                    {currentUser.name}
+                    <ChevronDown className="w-3 h-3 text-slate-400" />
+                  </div>
+                  <div className="text-[10px] text-slate-400 truncate max-w-[100px]">{currentUser.major}</div>
+                </div>
+              </button>
+
+              <button
+                onClick={logoutUser}
+                title="Log Out"
+                className="p-2 rounded-xl text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
             </div>
-          </button>
+          ) : (
+            <button
+              onClick={() => setIsLoginModalOpen(true)}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white text-xs font-bold shadow-md shadow-indigo-500/20 active:scale-95 transition"
+            >
+              <LogIn className="w-3.5 h-3.5" />
+              <span>Log In</span>
+            </button>
+          )}
         </div>
       </div>
     </header>

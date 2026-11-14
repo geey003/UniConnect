@@ -540,6 +540,43 @@ export function AppProvider({ children }) {
   // Active Story modal
   const [activeStoryModal, setActiveStoryModal] = useState(null);
 
+  // Authentication State
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    const saved = localStorage.getItem("cp_is_authenticated");
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("cp_is_authenticated", JSON.stringify(isAuthenticated));
+  }, [isAuthenticated]);
+
+  const loginUser = (authData) => {
+    setIsAuthenticated(true);
+    if (authData?.name) {
+      setCurrentUser((prev) => ({
+        ...prev,
+        name: authData.name || prev.name,
+        handle: authData.name
+          ? `@${authData.name.toLowerCase().replace(/[^a-z0-9]/g, "_")}`
+          : prev.handle,
+        major: authData.major || prev.major,
+        university: authData.university || prev.university,
+        email: authData.email || prev.email,
+        phone: authData.phone || prev.phone
+      }));
+    }
+    setIsLoginModalOpen(false);
+    confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
+    showToast(`Welcome back, ${authData?.name || currentUser.name}! 🎓`, "success");
+  };
+
+  const logoutUser = () => {
+    setIsAuthenticated(false);
+    showToast("Signed out of UniConnect. See you soon! 👋", "info");
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -587,7 +624,13 @@ export function AppProvider({ children }) {
         markAllNotifsAsRead,
         unreadNotifsCount,
         isProfileModalOpen,
-        setIsProfileModalOpen
+        setIsProfileModalOpen,
+        isAuthenticated,
+        setIsAuthenticated,
+        isLoginModalOpen,
+        setIsLoginModalOpen,
+        loginUser,
+        logoutUser
       }}
     >
       {children}
