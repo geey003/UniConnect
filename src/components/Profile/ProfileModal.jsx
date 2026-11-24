@@ -56,8 +56,8 @@ export default function ProfileModal() {
 
   const badges = [
     { name: "Top Study Pod Leader", icon: "🥇", desc: "Hosted 5+ collaborative pods" },
-    { name: "Verified Student", icon: "🎓", desc: "Authenticated Northwood email" },
-    { name: "Algorithm Solver", icon: "⚡", desc: "Helped 40+ peers in CS 310" },
+    { name: "Verified Student", icon: "🎓", desc: "Authenticated student email" },
+    { name: "Active Peer", icon: "⚡", desc: "Helped peers in campus study pods" },
     { name: "Night Owl", icon: "🦉", desc: "Active in library after 1 AM" }
   ];
 

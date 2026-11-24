@@ -29,11 +29,11 @@ export default function Sidebar() {
   ];
 
   const trendingTopics = [
-    { tag: "#CS310Midterms", count: "348 posts" },
-    { tag: "#Hackathon2026", count: "215 posts" },
-    { tag: "#UndergroundBeanCoffee", count: "182 posts" },
-    { tag: "#SpringHousingSwap", count: "95 posts" },
-    { tag: "#QuadAcousticJam", count: "64 posts" }
+    { tag: "#StudyPods", count: "Active" },
+    { tag: "#CampusLife", count: "Trending" },
+    { tag: "#ExamPrep", count: "Popular" },
+    { tag: "#Confessions", count: "Vault" },
+    { tag: "#CampusEvents", count: "Upcoming" }
   ];
 
   return (
@@ -90,7 +90,7 @@ export default function Sidebar() {
           <span className="text-xs text-indigo-200 font-medium">Rep Points</span>
         </div>
         <p className="text-xs text-indigo-100/90 leading-relaxed mb-4">
-          Earned by helping classmates solve algorithm questions & hosting study pods!
+          Earned by participating in campus discussions & hosting study pods!
         </p>
         <div className="pt-3 border-t border-indigo-400/30 flex items-center justify-between text-xs text-indigo-200">
           <span>Enrolled Courses</span>

@@ -59,17 +59,17 @@ export default function StudyBuddyView() {
 
   // Form state for creating study request
   const [formData, setFormData] = useState({
-    course: "CS 310 - Algorithms & Data Structures",
-    courseCode: "CS 310",
+    course: "",
+    courseCode: "",
     topic: "",
     studyStyle: "Collaborative Whiteboarding",
-    preferredLocation: "Library 3rd Floor Pods",
-    availability: "Evenings after 6:00 PM",
+    preferredLocation: "",
+    availability: "",
     maxMembers: "4",
     bio: ""
   });
 
-  const coursesList = ["All", "CS 310", "BIO 220", "MATH 240", "ECON 202", "PSYC 101"];
+  const coursesList = ["All"];
   const stylesList = [
     "All",
     "Collaborative Whiteboarding",
@@ -95,12 +95,12 @@ export default function StudyBuddyView() {
     createStudyRequest(formData);
     setIsModalOpen(false);
     setFormData({
-      course: "CS 310 - Algorithms & Data Structures",
-      courseCode: "CS 310",
+      course: "",
+      courseCode: "",
       topic: "",
       studyStyle: "Collaborative Whiteboarding",
-      preferredLocation: "Library 3rd Floor Pods",
-      availability: "Evenings after 6:00 PM",
+      preferredLocation: "",
+      availability: "",
       maxMembers: "4",
       bio: ""
     });

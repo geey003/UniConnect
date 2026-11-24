@@ -59,8 +59,8 @@ export default function Header({ onOpenCreatePost }) {
               </span>
               <div className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                <span className="font-semibold">Northwood Uni</span>
-                <span className="text-slate-400 dark:text-slate-500">• 4.2k active</span>
+                <span className="font-semibold">{currentUser?.university || "Campus Network"}</span>
+                <span className="text-slate-400 dark:text-slate-500">• Live</span>
               </div>
             </div>
           </div>

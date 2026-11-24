@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 import {
+  DEFAULT_USER,
   INITIAL_USER,
   INITIAL_STORIES,
   INITIAL_POSTS,
@@ -16,6 +17,22 @@ import {
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
+  // Ensure stale AI/mock data from previous sessions is wiped clean
+  const APP_VERSION = "uniconnect_v4_strict_auth_clean";
+  if (typeof window !== "undefined" && localStorage.getItem("uniconnect_app_version") !== APP_VERSION) {
+    localStorage.removeItem("cp_posts");
+    localStorage.removeItem("cp_stories");
+    localStorage.removeItem("cp_confessions");
+    localStorage.removeItem("cp_study_buddies");
+    localStorage.removeItem("cp_clubs");
+    localStorage.removeItem("cp_events");
+    localStorage.removeItem("cp_channel_messages");
+    localStorage.removeItem("cp_notifications");
+    localStorage.removeItem("cp_user");
+    localStorage.removeItem("cp_is_authenticated");
+    localStorage.setItem("uniconnect_app_version", APP_VERSION);
+  }
+
   // Theme state (persisted)
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("cp_theme") || "light";
@@ -540,10 +557,10 @@ export function AppProvider({ children }) {
   // Active Story modal
   const [activeStoryModal, setActiveStoryModal] = useState(null);
 
-  // Authentication State
+  // Authentication State (Default to false: must log in first)
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     const saved = localStorage.getItem("cp_is_authenticated");
-    return saved !== null ? JSON.parse(saved) : true;
+    return saved !== null ? JSON.parse(saved) : false;
   });
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -553,27 +570,40 @@ export function AppProvider({ children }) {
   }, [isAuthenticated]);
 
   const loginUser = (authData) => {
+    const name = authData?.name?.trim() || (authData?.email ? authData.email.split("@")[0] : "Student");
+    const cleanHandle = `@${name.toLowerCase().replace(/[^a-z0-9]/g, "_")}`;
+    const cleanUser = {
+      id: `usr_${Date.now()}`,
+      name: name,
+      handle: cleanHandle,
+      avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=6366f1,8b5cf6`,
+      banner: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&auto=format&fit=crop&q=80",
+      major: authData?.major?.trim() || "Undergraduate",
+      year: "Class of 2027",
+      university: authData?.university?.trim() || "Campus Community",
+      campusReputation: 100,
+      bio: "Joined UniConnect! Excited to connect with classmates.",
+      courses: ["General Studies"],
+      interests: ["Campus Life", "Study Pods"],
+      status: "Active & Studying 📚",
+      isOnline: true,
+      email: authData?.email || "",
+      phone: authData?.phone || ""
+    };
+    setCurrentUser(cleanUser);
     setIsAuthenticated(true);
-    if (authData?.name) {
-      setCurrentUser((prev) => ({
-        ...prev,
-        name: authData.name || prev.name,
-        handle: authData.name
-          ? `@${authData.name.toLowerCase().replace(/[^a-z0-9]/g, "_")}`
-          : prev.handle,
-        major: authData.major || prev.major,
-        university: authData.university || prev.university,
-        email: authData.email || prev.email,
-        phone: authData.phone || prev.phone
-      }));
-    }
+    localStorage.setItem("cp_user", JSON.stringify(cleanUser));
+    localStorage.setItem("cp_is_authenticated", "true");
     setIsLoginModalOpen(false);
     confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
-    showToast(`Welcome back, ${authData?.name || currentUser.name}! 🎓`, "success");
+    showToast(`Welcome to UniConnect, ${name}! 🎓`, "success");
   };
 
   const logoutUser = () => {
     setIsAuthenticated(false);
+    setCurrentUser(DEFAULT_USER);
+    localStorage.removeItem("cp_is_authenticated");
+    localStorage.removeItem("cp_user");
     showToast("Signed out of UniConnect. See you soon! 👋", "info");
   };
 

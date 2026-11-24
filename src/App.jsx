@@ -12,12 +12,22 @@ import ChatDrawer from "./components/Chat/ChatDrawer";
 import ProfileModal from "./components/Profile/ProfileModal";
 import CreatePostModal from "./components/CreatePostModal";
 import LoginModal from "./components/Auth/LoginModal";
+import AuthGateway from "./components/Auth/AuthGateway";
 import MobileNav from "./components/MobileNav";
 import Toast from "./components/Toast";
 
 function MainContent() {
-  const { activeTab } = useApp();
+  const { activeTab, isAuthenticated } = useApp();
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        <AuthGateway />
+        <Toast />
+      </>
+    );
+  }
 
   const renderActiveView = () => {
     switch (activeTab) {

@@ -93,27 +93,21 @@ export default function ChatView({ isDrawer = false, onCloseDrawer }) {
 
           {/* Active online peers widget */}
           <div className="p-3 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-              Online Students
+            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center justify-between">
+              <span>Your Status</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             </div>
-            <div className="flex -space-x-1.5 overflow-hidden">
+            <div className="flex items-center gap-2">
               <img
-                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80"
-                alt="Maya"
-                className="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-900"
+                src={currentUser.avatar}
+                alt={currentUser.name}
+                className="h-7 w-7 rounded-full object-cover ring-2 ring-indigo-500/30"
               />
-              <img
-                src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80"
-                alt="Jordan"
-                className="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-900"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80"
-                alt="Liam"
-                className="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-900"
-              />
-              <div className="h-6 w-6 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[9px] font-bold flex items-center justify-center ring-2 ring-white dark:ring-slate-900">
-                +42
+              <div className="truncate">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block truncate">
+                  {currentUser.name}
+                </span>
+                <span className="text-[10px] text-emerald-500 font-medium">Online on campus</span>
               </div>
             </div>
           </div>
